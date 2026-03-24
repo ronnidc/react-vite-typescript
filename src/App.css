@@ -32,6 +32,34 @@ body {
   font-size: 15px;
 }
 
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #5f5e5a;
+  cursor: pointer;
+}
+
+.filter-toggle input {
+  cursor: pointer;
+  accent-color: #1D9E75;
+  width: 15px;
+  height: 15px;
+}
+
+.course-count {
+  font-size: 13px;
+  color: #888780;
+}
+
 .course-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
