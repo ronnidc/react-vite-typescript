@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import type { Course } from '../types'
 import { fetchCourses } from '../services/courseService'
 import { useRelatedResources } from '../hooks/useRelatedResources'
+import { useAuth } from '../context/AuthContext'
 import styles from './CourseDetailPage.module.css'
 
 function CourseDetailPage() {
@@ -17,6 +18,9 @@ function CourseDetailPage() {
     queryKey: ['courses'],
     queryFn: fetchCourses,
   })
+
+  const { user } = useAuth()
+  const isAdmin = user?.role === 'admin'
 
   const {
     data: resources,
@@ -38,6 +42,18 @@ function CourseDetailPage() {
   return (
     <div>
       <Link to="/" className={styles.back}>← Tilbage til kurser</Link>
+
+      <div className={styles.articleHeader}>
+        <div />
+        {/* Rediger-knap — kun synlig for admin.
+            I et rigtigt projekt ville dette linke til en edit-route.
+            Termen: "conditional UI" / "role-gated feature" */}
+        {isAdmin && (
+          <button className={styles.editButton} onClick={() => alert('Redigering kommer i næste version')}>
+            Rediger kursus
+          </button>
+        )}
+      </div>
 
       <article className={styles.article}>
         <span className={styles.goal}>Verdensmål {course.goal}</span>

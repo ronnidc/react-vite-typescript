@@ -2,16 +2,21 @@ import { useState } from 'react'
 import CourseCard from '../components/CourseCard'
 import { SkeletonGrid } from '../components/Skeleton'
 import { useCourses } from '../hooks/useCourses'
+import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import styles from './CoursesPage.module.css'
 
 function CoursesPage() {
   const { courses, loading, error } = useCourses()
-  const [showOnlyPublished, setShowOnlyPublished] = useState(false)
-
-  // useNavigate returnerer en funktion til programmatisk navigation.
-  // Termen: "imperative navigation" — du navigerer via kode, ikke via et <Link>-element.
+  const { user } = useAuth()
   const navigate = useNavigate()
+
+  // RBAC — rolle bestemmer standardadfærd:
+  // admin ser alle kurser som standard (showOnlyPublished = false)
+  // instructor ser kun publicerede som standard (showOnlyPublished = true)
+  // Termen: "role-based default state"
+  const isAdmin = user?.role === 'admin'
+  const [showOnlyPublished, setShowOnlyPublished] = useState(!isAdmin)
 
   const visibleCourses = showOnlyPublished
     ? courses.filter((course) => course.published)
@@ -32,19 +37,35 @@ function CoursesPage() {
   return (
     <div>
       <header className={styles.header}>
-        <h1>Læringsportal</h1>
-        <p>Undervisningsmateriale om FNs verdensmål</p>
+        <div>
+          <h1>Læringsportal</h1>
+          <p>Undervisningsmateriale om FNs verdensmål</p>
+        </div>
+
+        {/* Rolle-badge i headeren — kun synligt når man er logget ind */}
+        {user && (
+          <span className={isAdmin ? styles.roleAdmin : styles.roleInstructor}>
+            {isAdmin ? 'Administrator' : 'Underviser'}
+          </span>
+        )}
       </header>
 
       <div className={styles.toolbar}>
-        <label className={styles.filterToggle}>
-          <input
-            type="checkbox"
-            checked={showOnlyPublished}
-            onChange={(e) => setShowOnlyPublished(e.target.checked)}
-          />
-          Vis kun publicerede kurser
-        </label>
+        {/* Admin kan toggle mellem alle og kun publicerede.
+            Instructor ser kun filteret som info — det er låst til publicerede. */}
+        {isAdmin ? (
+          <label className={styles.filterToggle}>
+            <input
+              type="checkbox"
+              checked={showOnlyPublished}
+              onChange={(e) => setShowOnlyPublished(e.target.checked)}
+            />
+            Vis kun publicerede kurser
+          </label>
+        ) : (
+          <span className={styles.filterInfo}>Viser publicerede kurser</span>
+        )}
+
         <span className={styles.count}>
           {visibleCourses.length} {visibleCourses.length === 1 ? 'kursus' : 'kurser'}
         </span>
@@ -52,10 +73,13 @@ function CoursesPage() {
 
       <div className={styles.grid}>
         {visibleCourses.map((course) => (
-          // onClick på et card navigerer til detaljsiden
-          // navigate() svarer til router.push() i Vue Router
-          <div key={course.id} onClick={() => navigate(`/courses/${course.id}`)} className={styles.cardWrapper}>
-            <CourseCard course={course} />
+          <div
+            key={course.id}
+            onClick={() => navigate(`/courses/${course.id}`)}
+            className={styles.cardWrapper}
+          >
+            {/* isAdmin sendes ned som prop — CourseCard viser kladde-badge hvis sand */}
+            <CourseCard course={course} isAdmin={isAdmin} />
           </div>
         ))}
       </div>

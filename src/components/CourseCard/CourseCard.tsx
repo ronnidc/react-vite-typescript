@@ -1,23 +1,34 @@
 import type { Course } from '../../types'
 import styles from './CourseCard.module.css'
 
-// Props er en TypeScript interface der beskriver hvad komponenten accepterer udefra.
-// Her siger vi: "CourseCard kræver et course-objekt af typen Course".
 interface CourseCardProps {
   course: Course
+  // isAdmin er en valgfri prop — false hvis ikke angivet.
+  // Komponenten ved dermed selv om den skal vise admin-specifikt indhold.
+  // Termen: "prop-driven rendering" — adfærd styres via props udefra.
+  isAdmin?: boolean
 }
 
-// En funktionskomponent er bare en funktion der returnerer JSX.
-// Vi destrukturerer props med det samme: { course } frem for props.course
-function CourseCard({ course }: CourseCardProps) {
+function CourseCard({ course, isAdmin = false }: CourseCardProps) {
   return (
-    <article className={styles.card}>
-      <span className={styles.goal}>Verdensmål {course.goal}</span>
+    <article className={`${styles.card} ${!course.published ? styles.unpublished : ''}`}>
+
+      <div className={styles.badges}>
+        <span className={styles.goal}>Verdensmål {course.goal}</span>
+
+        {/* Kladde-badge — kun synligt for admin og kun på upublicerede kurser.
+            Dobbelt betingelse: begge skal være sande.
+            Termen: "compound conditional rendering" */}
+        {isAdmin && !course.published && (
+          <span className={styles.draft}>Kladde</span>
+        )}
+      </div>
+
       <h2 className={styles.title}>{course.title}</h2>
       <p className={styles.description}>{course.description}</p>
+
       <footer className={styles.footer}>
         <span>{course.durationMinutes} min</span>
-        {/* Betinget rendering: vis kun badge hvis kurset er publiceret */}
         {course.published && (
           <span className={styles.published}>Publiceret</span>
         )}
