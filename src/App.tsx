@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
 import CoursesPage from './pages/CoursesPage'
 import CourseDetailPage from './pages/CourseDetailPage'
 import LoginPage from './pages/LoginPage'
@@ -38,7 +39,14 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<CoursesPage />} />
-            <Route path="/courses/:id" element={<CourseDetailPage />} />
+            <Route
+              path="/courses/:id"
+              element={
+                <ProtectedRoute>
+                  <CourseDetailPage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/login" element={<LoginPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
