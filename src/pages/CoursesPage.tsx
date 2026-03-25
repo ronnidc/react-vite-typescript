@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CourseCard from '../components/CourseCard';
 import { SkeletonGrid } from '../components/Skeleton';
 import { useCourses } from '../hooks/useCourses';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import styles from './CoursesPage.module.css';
 

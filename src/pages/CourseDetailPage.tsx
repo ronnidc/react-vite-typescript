@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { Course } from '../types';
 import { fetchCourses } from '../services/courseService';
 import { useRelatedResources } from '../hooks/useRelatedResources';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import styles from './CourseDetailPage.module.css';
 
 function CourseDetailPage() {
