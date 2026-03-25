@@ -7,6 +7,12 @@ export interface Course {
   published: boolean
 }
 
+export interface Resource {
+  id: number
+  title: string
+  body: string
+}
+
 export interface User {
   id: number
   name: string

@@ -71,6 +71,46 @@
   border-radius: 4px;
 }
 
+.resources {
+  margin-top: 2.5rem;
+  max-width: 640px;
+}
+
+.resourcesTitle {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #1a1a18;
+}
+
+.resourceList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.resourceItem {
+  background: #ffffff;
+  border: 0.5px solid #dddbd3;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.resourceTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a18;
+  margin-bottom: 4px;
+  text-transform: capitalize;
+}
+
+.resourceBody {
+  font-size: 13px;
+  color: #888780;
+  line-height: 1.5;
+}
+
 .status {
   margin-top: 4rem;
   text-align: center;

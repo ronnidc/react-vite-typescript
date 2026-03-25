@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import type { Course } from '../types'
 import { fetchCourses } from '../services/courseService'
+import { useRelatedResources } from '../hooks/useRelatedResources'
 import styles from './CourseDetailPage.module.css'
 
 function CourseDetailPage() {
@@ -9,11 +10,16 @@ function CourseDetailPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // useParams læser URL-parametre — :id fra route-definitionen.
-  // TypeScript ved ikke hvilke params der findes, så alt er string | undefined.
-  // Termen: "URL parameter" / "route param" — svarer til useRoute().params i Vue.
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+
+  // Henter relaterede ressourcer fra JSONPlaceholder via rigtig HTTP fetch.
+  // Bemærk: vi sender Number(id) — useQuery starter automatisk når courseId er klar.
+  const {
+    data: resources,
+    isLoading: resourcesLoading,
+    isError: resourcesError,
+  } = useRelatedResources(Number(id))
 
   useEffect(() => {
     let cancelled = false
@@ -21,14 +27,10 @@ function CourseDetailPage() {
     async function loadCourse() {
       try {
         setLoading(true)
-        // Vi henter alle kurser og finder det rigtige — i virkeligheden ville
-        // vi kalde et endpoint som GET /courses/:id
         const all = await fetchCourses()
         const found = all.find((c) => c.id === Number(id))
-
         if (!cancelled) {
           if (!found) {
-            // Naviger til 404 hvis kurset ikke findes
             navigate('/not-found', { replace: true })
             return
           }
@@ -43,8 +45,6 @@ function CourseDetailPage() {
 
     loadCourse()
     return () => { cancelled = true }
-
-  // id er i dependency array — effecten kører igen hvis URL-parameteren ændrer sig.
   }, [id, navigate])
 
   if (loading) return <div className={styles.status}>Henter kursus…</div>
@@ -53,9 +53,6 @@ function CourseDetailPage() {
 
   return (
     <div>
-      {/* Link er den deklarative måde at navigere på — renderer et <a>-tag.
-          Brug Link til navigation i JSX, useNavigate til navigation i kode.
-          Termen: "declarative navigation" */}
       <Link to="/" className={styles.back}>← Tilbage til kurser</Link>
 
       <article className={styles.article}>
@@ -70,6 +67,32 @@ function CourseDetailPage() {
           </span>
         </div>
       </article>
+
+      {/* Relaterede ressourcer — hentet fra eksternt REST API */}
+      <section className={styles.resources}>
+        <h2 className={styles.resourcesTitle}>Relaterede ressourcer</h2>
+
+        {resourcesLoading && (
+          <p className={styles.status}>Henter ressourcer…</p>
+        )}
+
+        {resourcesError && (
+          <p className={`${styles.status} ${styles.error}`}>
+            Kunne ikke hente ressourcer.
+          </p>
+        )}
+
+        {resources && (
+          <ul className={styles.resourceList}>
+            {resources.map((resource) => (
+              <li key={resource.id} className={styles.resourceItem}>
+                <h3 className={styles.resourceTitle}>{resource.title}</h3>
+                <p className={styles.resourceBody}>{resource.body}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </div>
   )
 }
