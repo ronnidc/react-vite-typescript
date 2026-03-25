@@ -8,71 +8,41 @@ body {
   background: #f9f8f5;
   color: #1a1a18;
   line-height: 1.6;
+  font-family: system-ui, sans-serif;
 }
 
 .app {
   max-width: 960px;
   margin: 0 auto;
-  padding: 2rem 1rem;
-  font-family: system-ui, sans-serif;
+  padding: 0 1rem 4rem;
 }
 
-.app-header {
-  margin-bottom: 2rem;
-}
-
-.app-header h1 {
-  font-size: 28px;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-}
-
-.app-header p {
-  color: #888780;
-  font-size: 15px;
-}
-
-.toolbar {
+.nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.25rem;
+  padding: 1.25rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 0.5px solid #dddbd3;
 }
 
-.filter-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: #5f5e5a;
-  cursor: pointer;
+.nav-logo {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1a18;
+  text-decoration: none;
 }
 
-.filter-toggle input {
-  cursor: pointer;
-  accent-color: #1D9E75;
-  width: 15px;
-  height: 15px;
-}
-
-.course-count {
+.nav-login {
   font-size: 13px;
   color: #888780;
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 0.5px solid #dddbd3;
+  border-radius: 8px;
 }
 
-.status-message {
-  margin-top: 4rem;
-  text-align: center;
-  font-size: 15px;
-  color: #888780;
-}
-
-.status-message.error {
-  color: #A32D2D;
-}
-
-.course-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
+.nav-login:hover {
+  background: #ffffff;
+  color: #1a1a18;
 }

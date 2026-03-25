@@ -1,64 +1,42 @@
-import { useState } from 'react'
-import CourseCard from './components/CourseCard'
-import { useCourses } from './hooks/useCourses'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
+import CoursesPage from './pages/CoursesPage'
+import CourseDetailPage from './pages/CourseDetailPage'
+import LoginPage from './pages/LoginPage'
+import NotFoundPage from './pages/NotFoundPage'
 import './App.css'
 
 function App() {
-  // Vores custom hook — al loading/error-logik er gemt væk herfra
-  const { courses, loading, error } = useCourses()
-
-  const [showOnlyPublished, setShowOnlyPublished] = useState(false)
-
-  const visibleCourses = showOnlyPublished
-    ? courses.filter((course) => course.published)
-    : courses
-
-  // Tidlig return — render loading-state før vi forsøger at vise data.
-  // Termen: "early return pattern" eller "guard clause".
-  if (loading) {
-    return (
-      <div className="app">
-        <div className="status-message">Henter kurser…</div>
-      </div>
-    )
-  }
-
-  // Vis fejl hvis noget gik galt
-  if (error) {
-    return (
-      <div className="app">
-        <div className="status-message error">{error}</div>
-      </div>
-    )
-  }
-
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Læringsportal</h1>
-        <p>Undervisningsmateriale om FNs verdensmål</p>
-      </header>
+    // BrowserRouter aktiverer History API og giver alle børnekomponenter
+    // adgang til routing via hooks som useNavigate og useParams.
+    // Termen: "router context" — en React Context der leverer routing-state.
+    <BrowserRouter>
+      <div className="app">
 
-      <div className="toolbar">
-        <label className="filter-toggle">
-          <input
-            type="checkbox"
-            checked={showOnlyPublished}
-            onChange={(e) => setShowOnlyPublished(e.target.checked)}
-          />
-          Vis kun publicerede kurser
-        </label>
-        <span className="course-count">
-          {visibleCourses.length} {visibleCourses.length === 1 ? 'kursus' : 'kurser'}
-        </span>
-      </div>
+        <nav className="nav">
+          {/* Link renderer et <a>-tag men intercepter klikket
+              og bruger History API i stedet for fuld side-reload.
+              Termen: "client-side navigation" */}
+          <Link to="/" className="nav-logo">Læringsportal</Link>
+          <Link to="/login" className="nav-login">Log ind</Link>
+        </nav>
 
-      <div className="course-grid">
-        {visibleCourses.map((course) => (
-          <CourseCard key={course.id} course={course} />
-        ))}
+        <main>
+          {/* Routes finder den første <Route> der matcher URL'en.
+              Termen: "route matching" */}
+          <Routes>
+            <Route path="/" element={<CoursesPage />} />
+            <Route path="/courses/:id" element={<CourseDetailPage />} />
+            <Route path="/login" element={<LoginPage />} />
+
+            {/* path="*" matcher alt der ikke er matchet ovenfor — vores 404.
+                Termen: "wildcard route" / "catch-all route" */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+
       </div>
-    </div>
+    </BrowserRouter>
   )
 }
 
