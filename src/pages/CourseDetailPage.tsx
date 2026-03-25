@@ -40,7 +40,7 @@ function CourseDetailPage() {
   }
 
   return (
-    <div>
+    <div className="page-content">
       <Link to="/" className={styles.back}>← Tilbage til kurser</Link>
 
       <div className={styles.articleHeader}>

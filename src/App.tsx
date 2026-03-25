@@ -7,18 +7,14 @@ import LoginPage from './pages/LoginPage'
 import NotFoundPage from './pages/NotFoundPage'
 import './App.css'
 
-// Nav er en separat komponent fordi den bruger useAuth.
-// App() selv behøver ikke kende til auth — god separation of concerns.
 function Nav() {
   const { user, logout, isAuthenticated } = useAuth()
 
   return (
     <nav className="nav">
-      <Link to="/" className="nav-logo">Læringsportal</Link>
-
+      <Link to="/" className="nav-logo">Læring<span>s</span>portal</Link>
       <div className="nav-actions">
         {isAuthenticated ? (
-          // Betinget rendering baseret på auth-state
           <>
             <span className="nav-user">👤 {user?.name}</span>
             <button className="nav-logout" onClick={logout}>Log ud</button>
@@ -34,24 +30,23 @@ function Nav() {
 function App() {
   return (
     <BrowserRouter>
-      <div className="app">
-        <Nav />
-        <main>
-          <Routes>
-            <Route path="/" element={<CoursesPage />} />
-            <Route
-              path="/courses/:id"
-              element={
-                <ProtectedRoute>
-                  <CourseDetailPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-        </main>
-      </div>
+      <Nav />
+      {/* Ingen app-body wrapper her — hver side styrer sit eget layout.
+          CoursesPage har brug for full-width hero.
+          De øvrige sider har deres egne containere. */}
+      <Routes>
+        <Route path="/" element={<CoursesPage />} />
+        <Route
+          path="/courses/:id"
+          element={
+            <ProtectedRoute>
+              <CourseDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </BrowserRouter>
   )
 }

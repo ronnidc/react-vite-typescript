@@ -52,6 +52,17 @@ function LoginPage() {
 
   return (
     <div className={styles.wrapper}>
+
+      {/* Venstre side — navy med kontekst */}
+      <aside className={styles.aside}>
+        <div className={styles.asideContent}>
+          <p className={styles.asideEyebrow}>Forbundets Læringsplatform</p>
+          <h2 className={styles.asideTitle}>Undervisning i FNs Verdensmål</h2>
+        </div>
+      </aside>
+
+      {/* Højre side — formular */}
+      <div className={styles.formSide}>
       <div className={styles.card}>
         <h1 className={styles.title}>Log ind</h1>
         <p className={styles.subtitle}>Læringsportalen for undervisere</p>
@@ -104,6 +115,7 @@ function LoginPage() {
         </div>
 
         <Link to="/" className={styles.back}>← Tilbage til kurser</Link>
+      </div>
       </div>
     </div>
   )

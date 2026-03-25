@@ -1,3 +1,16 @@
+:root {
+  --blue:       #00ADE6;
+  --blue-dark:  #0090C2;
+  --blue-dim:   #E6F7FD;
+  --navy:       #102130;
+  --navy-mid:   #1E3347;
+  --ink:        #1A1C1E;
+  --muted:      #4A5568;
+  --subtle:     #6b6a65;
+  --border:     #E2E8F0;
+  --surface:    #F7FAFC;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -5,71 +18,90 @@
 }
 
 body {
-  background: #f9f8f5;
-  color: #1a1a18;
+  background: var(--surface);
+  color: var(--ink);
   line-height: 1.6;
-  font-family: system-ui, sans-serif;
+  font-family: 'Barlow', system-ui, sans-serif;
+  font-weight: 400;
 }
 
-.app {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 1rem 4rem;
-}
-
+/* ── NAV ───────────────────────────────────────────── */
 .nav {
+  background: var(--navy);
+  padding: 0 2.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 0;
-  margin-bottom: 2rem;
-  border-bottom: 0.5px solid #dddbd3;
+  height: 60px;
 }
 
 .nav-logo {
-  font-size: 16px;
-  font-weight: 500;
-  color: #1a1a18;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
   text-decoration: none;
 }
 
-.nav-login {
-  font-size: 13px;
-  color: #6b6a65;
-  text-decoration: none;
-  padding: 6px 14px;
-  border: 0.5px solid #dddbd3;
-  border-radius: 8px;
+.nav-logo span {
+  color: var(--blue);
 }
 
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 1.25rem;
 }
 
 .nav-user {
   font-size: 13px;
-  color: #5f5e5a;
+  color: rgba(255, 255, 255, 0.6);
 }
 
-.nav-logout {
+.nav-login {
+  font-family: 'Barlow', sans-serif;
   font-size: 13px;
-  color: #6b6a65;
-  background: none;
-  border: 0.5px solid #dddbd3;
-  border-radius: 8px;
-  padding: 6px 14px;
+  font-weight: 500;
+  color: var(--navy);
+  background: var(--blue);
+  border: none;
+  border-radius: 4px;
+  padding: 7px 16px;
   cursor: pointer;
-  font-family: inherit;
-}
-
-.nav-logout:hover {
-  background: #ffffff;
-  color: #1a1a18;
+  text-decoration: none;
+  letter-spacing: 0.02em;
 }
 
 .nav-login:hover {
-  background: #ffffff;
-  color: #1a1a18;
+  background: var(--blue-dark);
+  color: var(--navy);
+}
+
+.nav-logout {
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.nav-logout:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+/* ── DELT SIDECONTAINER ─────────────────────────────
+   Bruges af sider uden full-width elementer:
+   CourseDetailPage, NotFoundPage
+   ─────────────────────────────────────────────────── */
+.page-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 2.5rem 4rem;
 }

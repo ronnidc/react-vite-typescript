@@ -1,3 +1,11 @@
+// @fontsource — kun de weights vi bruger, ingen overhead
+import '@fontsource/barlow/300.css'  // light — brødtekst
+import '@fontsource/barlow/400.css'  // regular
+import '@fontsource/barlow/500.css'  // medium — UI-elementer
+import '@fontsource/barlow/600.css'  // semibold — kortttitler
+import '@fontsource/barlow-condensed/500.css'  // badges
+import '@fontsource/barlow-condensed/600.css'  // labels
+import '@fontsource/barlow-condensed/700.css'  // store overskrifter
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'

@@ -11,10 +11,6 @@ function CoursesPage() {
   const { user } = useAuth()
   const navigate = useNavigate()
 
-  // RBAC — rolle bestemmer standardadfærd:
-  // admin ser alle kurser som standard (showOnlyPublished = false)
-  // instructor ser kun publicerede som standard (showOnlyPublished = true)
-  // Termen: "role-based default state"
   const isAdmin = user?.role === 'admin'
   const [showOnlyPublished, setShowOnlyPublished] = useState(!isAdmin)
 
@@ -23,49 +19,53 @@ function CoursesPage() {
     : courses
 
   if (loading) return (
-    <div>
-      <header className={styles.header}>
-        <h1>Læringsportal</h1>
-        <p>Undervisningsmateriale om FNs verdensmål</p>
-      </header>
-      <SkeletonGrid count={9} />
-    </div>
+    <>
+      <div className={styles.hero}>
+        <div className={styles.heroInner}>
+          <p className={styles.heroEyebrow}>Forbundets Læringsplatform</p>
+          <h1>Undervisning i FNs Verdensmål</h1>
+          <p>Kurser og materialer til undervisere i forbundsregi</p>
+        </div>
+      </div>
+      <div className={styles.content}>
+        <SkeletonGrid count={9} />
+      </div>
+    </>
   )
 
   if (error) return <div className={`${styles.status} ${styles.error}`}>{error}</div>
 
   return (
-    <div>
-      <header className={styles.header}>
-        <div>
-          <h1>Læringsportal</h1>
-          <p>Undervisningsmateriale om FNs verdensmål</p>
+    <>
+      <div className={styles.hero}>
+        <div className={styles.heroInner}>
+          <p className={styles.heroEyebrow}>Forbundets Læringsplatform</p>
+          <h1>Undervisning i FNs Verdensmål</h1>
+          <p>Kurser og materialer til undervisere i forbundsregi</p>
         </div>
+      </div>
 
-        {/* Rolle-badge i headeren — kun synligt når man er logget ind */}
-        {user && (
-          <span className={isAdmin ? styles.roleAdmin : styles.roleInstructor}>
-            {isAdmin ? 'Administrator' : 'Underviser'}
-          </span>
-        )}
-      </header>
-
+      <div className={styles.content}>
       <div className={styles.toolbar}>
-        {/* Admin kan toggle mellem alle og kun publicerede.
-            Instructor ser kun filteret som info — det er låst til publicerede. */}
-        {isAdmin ? (
-          <label className={styles.filterToggle}>
-            <input
-              type="checkbox"
-              checked={showOnlyPublished}
-              onChange={(e) => setShowOnlyPublished(e.target.checked)}
-            />
-            Vis kun publicerede kurser
-          </label>
-        ) : (
-          <span className={styles.filterInfo}>Viser publicerede kurser</span>
-        )}
-
+        <div className={styles.toolbarLeft}>
+          {isAdmin ? (
+            <label className={styles.filterToggle}>
+              <input
+                type="checkbox"
+                checked={showOnlyPublished}
+                onChange={(e) => setShowOnlyPublished(e.target.checked)}
+              />
+              Vis kun publicerede kurser
+            </label>
+          ) : (
+            <span className={styles.filterInfo}>Viser publicerede kurser</span>
+          )}
+          {user && (
+            <span className={isAdmin ? styles.roleAdmin : styles.roleInstructor}>
+              {isAdmin ? 'Administrator' : 'Underviser'}
+            </span>
+          )}
+        </div>
         <span className={styles.count}>
           {visibleCourses.length} {visibleCourses.length === 1 ? 'kursus' : 'kurser'}
         </span>
@@ -78,12 +78,12 @@ function CoursesPage() {
             onClick={() => navigate(`/courses/${course.id}`)}
             className={styles.cardWrapper}
           >
-            {/* isAdmin sendes ned som prop — CourseCard viser kladde-badge hvis sand */}
             <CourseCard course={course} isAdmin={isAdmin} />
           </div>
         ))}
       </div>
-    </div>
+      </div>
+    </>
   )
 }
 
