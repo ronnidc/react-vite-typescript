@@ -1,55 +1,39 @@
-import { useEffect, useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import type { Course } from '../types'
 import { fetchCourses } from '../services/courseService'
 import { useRelatedResources } from '../hooks/useRelatedResources'
 import styles from './CourseDetailPage.module.css'
 
 function CourseDetailPage() {
-  const [course, setCourse] = useState<Course | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
 
-  // Henter relaterede ressourcer fra JSONPlaceholder via rigtig HTTP fetch.
-  // Bemærk: vi sender Number(id) — useQuery starter automatisk når courseId er klar.
+  // Vi bruger SAMME queryKey ['courses'] som CoursesPage.
+  // Hvis brugeren har besøgt kursuslisten, henter TanStack Query ikke igen —
+  // den returnerer øjeblikkeligt fra cachen. Ingen loading-spinner, ingen forsinkelse.
+  // Termen: "cache hit" — data blev fundet i cachen uden netværkskald.
+  const { data: courses, isLoading, isError } = useQuery<Course[]>({
+    queryKey: ['courses'],
+    queryFn: fetchCourses,
+  })
+
   const {
     data: resources,
     isLoading: resourcesLoading,
     isError: resourcesError,
   } = useRelatedResources(Number(id))
 
-  useEffect(() => {
-    let cancelled = false
+  if (isLoading) return <div className={styles.status}>Henter kursus…</div>
+  if (isError) return <div className={`${styles.status} ${styles.error}`}>Kunne ikke hente kursus.</div>
 
-    async function loadCourse() {
-      try {
-        setLoading(true)
-        const all = await fetchCourses()
-        const found = all.find((c) => c.id === Number(id))
-        if (!cancelled) {
-          if (!found) {
-            navigate('/not-found', { replace: true })
-            return
-          }
-          setCourse(found)
-        }
-      } catch {
-        if (!cancelled) setError('Kunne ikke hente kursus.')
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
-    }
+  const course = courses?.find((c) => c.id === Number(id))
 
-    loadCourse()
-    return () => { cancelled = true }
-  }, [id, navigate])
-
-  if (loading) return <div className={styles.status}>Henter kursus…</div>
-  if (error) return <div className={`${styles.status} ${styles.error}`}>{error}</div>
-  if (!course) return null
+  // Hvis kurset ikke findes navigerer vi til 404
+  if (!course) {
+    navigate('/not-found', { replace: true })
+    return null
+  }
 
   return (
     <div>
@@ -68,7 +52,6 @@ function CourseDetailPage() {
         </div>
       </article>
 
-      {/* Relaterede ressourcer — hentet fra eksternt REST API */}
       <section className={styles.resources}>
         <h2 className={styles.resourcesTitle}>Relaterede ressourcer</h2>
 

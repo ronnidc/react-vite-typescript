@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { AuthProvider } from './context/AuthContext'
 import './index.css'
 import App from './App.tsx'
 
@@ -28,11 +29,11 @@ createRoot(document.getElementById('root')!).render(
         adgang til queryClient via hooks som useQuery og useMutation.
         Termen: "provider pattern" — det samme mønster som BrowserRouter bruger. */}
     <QueryClientProvider client={queryClient}>
-      <App />
-
-      {/* ReactQueryDevtools er et debug-panel der kun vises i development.
-          Det viser cache-indhold, query-status og timing.
-          Fjernes automatisk fra production build — ingen ekstra konfiguration. */}
+      {/* AuthProvider ligger inde i QueryClientProvider så login-funktioner
+          kan invalidere TanStack Query cachen ved logout. */}
+      <AuthProvider>
+        <App />
+      </AuthProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </StrictMode>,
