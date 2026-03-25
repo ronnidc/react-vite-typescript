@@ -60,6 +60,17 @@ body {
   color: #888780;
 }
 
+.status-message {
+  margin-top: 4rem;
+  text-align: center;
+  font-size: 15px;
+  color: #888780;
+}
+
+.status-message.error {
+  color: #A32D2D;
+}
+
 .course-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
