@@ -1,1 +1,1 @@
-export { Skeleton, SkeletonCourseCard, SkeletonGrid } from './Skeleton'
+export { Skeleton, SkeletonCourseCard, SkeletonGrid } from './Skeleton';

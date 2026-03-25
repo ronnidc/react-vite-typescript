@@ -1,17 +1,19 @@
 :root {
-  --blue:       #00ADE6;
-  --blue-dark:  #0090C2;
-  --blue-dim:   #E6F7FD;
-  --navy:       #102130;
-  --navy-mid:   #1E3347;
-  --ink:        #1A1C1E;
-  --muted:      #4A5568;
-  --subtle:     #6b6a65;
-  --border:     #E2E8F0;
-  --surface:    #F7FAFC;
+  --blue: #00ade6;
+  --blue-dark: #0090c2;
+  --blue-dim: #e6f7fd;
+  --navy: #102130;
+  --navy-mid: #1e3347;
+  --ink: #1a1c1e;
+  --muted: #4a5568;
+  --subtle: #6b6a65;
+  --border: #e2e8f0;
+  --surface: #f7fafc;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;

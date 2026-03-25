@@ -9,9 +9,9 @@
 .editButton {
   font-size: 13px;
   font-weight: 500;
-  color: #3C3489;
-  background: #EEEDFE;
-  border: 0.5px solid #AFA9EC;
+  color: #3c3489;
+  background: #eeedfe;
+  border: 0.5px solid #afa9ec;
   border-radius: 8px;
   padding: 6px 14px;
   cursor: pointer;
@@ -19,7 +19,7 @@
 }
 
 .editButton:hover {
-  background: #CECBF6;
+  background: #cecbf6;
 }
 
 .back {
@@ -48,8 +48,8 @@
 .goal {
   font-size: 12px;
   font-weight: 500;
-  color: #0F6E56;
-  background: #E1F5EE;
+  color: #0f6e56;
+  background: #e1f5ee;
   padding: 2px 8px;
   border-radius: 4px;
   align-self: flex-start;
@@ -80,8 +80,8 @@
 .published {
   font-size: 11px;
   font-weight: 500;
-  background: #E6F1FB;
-  color: #185FA5;
+  background: #e6f1fb;
+  color: #185fa5;
   padding: 2px 8px;
   border-radius: 4px;
 }
@@ -89,7 +89,7 @@
 .draft {
   font-size: 11px;
   font-weight: 500;
-  background: #F1EFE8;
+  background: #f1efe8;
   color: #6b6a65;
   padding: 2px 8px;
   border-radius: 4px;
@@ -143,5 +143,5 @@
 }
 
 .error {
-  color: #A32D2D;
+  color: #a32d2d;
 }

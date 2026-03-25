@@ -1,47 +1,54 @@
-import { useParams, useNavigate, Link } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
-import type { Course } from '../types'
-import { fetchCourses } from '../services/courseService'
-import { useRelatedResources } from '../hooks/useRelatedResources'
-import { useAuth } from '../context/AuthContext'
-import styles from './CourseDetailPage.module.css'
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import type { Course } from '../types';
+import { fetchCourses } from '../services/courseService';
+import { useRelatedResources } from '../hooks/useRelatedResources';
+import { useAuth } from '../context/AuthContext';
+import styles from './CourseDetailPage.module.css';
 
 function CourseDetailPage() {
-  const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   // Vi bruger SAMME queryKey ['courses'] som CoursesPage.
   // Hvis brugeren har besøgt kursuslisten, henter TanStack Query ikke igen —
   // den returnerer øjeblikkeligt fra cachen. Ingen loading-spinner, ingen forsinkelse.
   // Termen: "cache hit" — data blev fundet i cachen uden netværkskald.
-  const { data: courses, isLoading, isError } = useQuery<Course[]>({
+  const {
+    data: courses,
+    isLoading,
+    isError,
+  } = useQuery<Course[]>({
     queryKey: ['courses'],
     queryFn: fetchCourses,
-  })
+  });
 
-  const { user } = useAuth()
-  const isAdmin = user?.role === 'admin'
+  const { user } = useAuth();
+  const isAdmin = user?.role === 'admin';
 
   const {
     data: resources,
     isLoading: resourcesLoading,
     isError: resourcesError,
-  } = useRelatedResources(Number(id))
+  } = useRelatedResources(Number(id));
 
-  if (isLoading) return <div className={styles.status}>Henter kursus…</div>
-  if (isError) return <div className={`${styles.status} ${styles.error}`}>Kunne ikke hente kursus.</div>
+  if (isLoading) return <div className={styles.status}>Henter kursus…</div>;
+  if (isError)
+    return <div className={`${styles.status} ${styles.error}`}>Kunne ikke hente kursus.</div>;
 
-  const course = courses?.find((c) => c.id === Number(id))
+  const course = courses?.find((c) => c.id === Number(id));
 
   // Hvis kurset ikke findes navigerer vi til 404
   if (!course) {
-    navigate('/not-found', { replace: true })
-    return null
+    navigate('/not-found', { replace: true });
+    return null;
   }
 
   return (
     <div className="page-content">
-      <Link to="/" className={styles.back}>← Tilbage til kurser</Link>
+      <Link to="/" className={styles.back}>
+        ← Tilbage til kurser
+      </Link>
 
       <div className={styles.articleHeader}>
         <div />
@@ -49,7 +56,10 @@ function CourseDetailPage() {
             I et rigtigt projekt ville dette linke til en edit-route.
             Termen: "conditional UI" / "role-gated feature" */}
         {isAdmin && (
-          <button className={styles.editButton} onClick={() => alert('Redigering kommer i næste version')}>
+          <button
+            className={styles.editButton}
+            onClick={() => alert('Redigering kommer i næste version')}
+          >
             Rediger kursus
           </button>
         )}
@@ -71,14 +81,10 @@ function CourseDetailPage() {
       <section className={styles.resources}>
         <h2 className={styles.resourcesTitle}>Relaterede ressourcer</h2>
 
-        {resourcesLoading && (
-          <p className={styles.status}>Henter ressourcer…</p>
-        )}
+        {resourcesLoading && <p className={styles.status}>Henter ressourcer…</p>}
 
         {resourcesError && (
-          <p className={`${styles.status} ${styles.error}`}>
-            Kunne ikke hente ressourcer.
-          </p>
+          <p className={`${styles.status} ${styles.error}`}>Kunne ikke hente ressourcer.</p>
         )}
 
         {resources && (
@@ -93,7 +99,7 @@ function CourseDetailPage() {
         )}
       </section>
     </div>
-  )
+  );
 }
 
-export default CourseDetailPage
+export default CourseDetailPage;

@@ -6,13 +6,13 @@ Live: [forbund.vercel.app](https://forbund.vercel.app)
 
 ## Stack
 
-| Teknologi | Formål |
-|---|---|
-| React 19 + TypeScript | UI og typesikkerhed |
-| Vite 8 | Bundler og dev-server |
-| React Router v6 | Klientside routing via Browser History API |
-| TanStack Query | Server state, caching og datahentning |
-| CSS Modules | Scoped komponent-styling |
+| Teknologi             | Formål                                     |
+| --------------------- | ------------------------------------------ |
+| React 19 + TypeScript | UI og typesikkerhed                        |
+| Vite 8                | Bundler og dev-server                      |
+| React Router v6       | Klientside routing via Browser History API |
+| TanStack Query        | Server state, caching og datahentning      |
+| CSS Modules           | Scoped komponent-styling                   |
 
 ## Koncepter der demonstreres
 
@@ -59,10 +59,10 @@ npm run dev
 
 ## Demo-logins
 
-| Email | Rolle |
-|---|---|
+| Email                 | Rolle      |
+| --------------------- | ---------- |
 | underviser@forbund.dk | instructor |
-| admin@forbund.dk | admin |
+| admin@forbund.dk      | admin      |
 
 Adgangskode: hvad som helst
 

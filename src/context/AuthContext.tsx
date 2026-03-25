@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from "react";
-import type { ReactNode } from "react";
-import type { User } from "../types";
+import { createContext, useContext, useState } from 'react';
+import type { ReactNode } from 'react';
+import type { User } from '../types';
 
 interface AuthContextValue {
   user: User | null;
@@ -11,7 +11,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const STORAGE_KEY = "auth_user";
+const STORAGE_KEY = 'auth_user';
 
 function loadUser(): User | null {
   try {
@@ -57,7 +57,7 @@ export function useAuth(): AuthContextValue {
   const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error("useAuth skal bruges inde i en AuthProvider");
+    throw new Error('useAuth skal bruges inde i en AuthProvider');
   }
 
   return context;

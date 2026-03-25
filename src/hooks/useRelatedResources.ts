@@ -1,6 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import type { Resource } from '../types'
-import { fetchRelatedResources } from '../services/resourceService'
+import { useQuery } from '@tanstack/react-query';
+import type { Resource } from '../types';
+import { fetchRelatedResources } from '../services/resourceService';
 
 export function useRelatedResources(courseId: number) {
   return useQuery<Resource[]>({
@@ -12,5 +12,5 @@ export function useRelatedResources(courseId: number) {
     // Data om relaterede ressourcer ændrer sig sjældent —
     // vi cacher i 5 minutter så vi ikke henter igen ved hvert besøg.
     staleTime: 1000 * 60 * 5,
-  })
+  });
 }

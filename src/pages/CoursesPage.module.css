@@ -129,8 +129,8 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  background: #D1FAE5;
-  color: #065F46;
+  background: #d1fae5;
+  color: #065f46;
   padding: 3px 10px;
   border-radius: 3px;
 }
@@ -155,5 +155,5 @@
 }
 
 .error {
-  color: #A32D2D;
+  color: #a32d2d;
 }
