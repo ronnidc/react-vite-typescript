@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import CourseCard from '../components/CourseCard'
+import { SkeletonGrid } from '../components/Skeleton'
 import { useCourses } from '../hooks/useCourses'
 import { useNavigate } from 'react-router-dom'
 import styles from './CoursesPage.module.css'
@@ -16,7 +17,16 @@ function CoursesPage() {
     ? courses.filter((course) => course.published)
     : courses
 
-  if (loading) return <div className={styles.status}>Henter kurser…</div>
+  if (loading) return (
+    <div>
+      <header className={styles.header}>
+        <h1>Læringsportal</h1>
+        <p>Undervisningsmateriale om FNs verdensmål</p>
+      </header>
+      <SkeletonGrid count={9} />
+    </div>
+  )
+
   if (error) return <div className={`${styles.status} ${styles.error}`}>{error}</div>
 
   return (

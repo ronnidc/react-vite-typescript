@@ -1,0 +1,45 @@
+/* Shimmer-animationen er en gradient der bevæger sig fra venstre mod højre.
+   Det er den moderne standard — bruges af Facebook, LinkedIn, YouTube m.fl.
+   Termen: "shimmer effect" / "shimmering skeleton" */
+@keyframes shimmer {
+  0% {
+    background-position: -600px 0;
+  }
+  100% {
+    background-position: 600px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    #ebe9e3 25%,
+    #f4f2ec 50%,
+    #ebe9e3 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.card {
+  background: #ffffff;
+  border: 0.5px solid #dddbd3;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}

@@ -81,6 +81,6 @@ const mockCourses: Course[] = [
 // Returtypen Promise<Course[]> er eksplicit — god vane før vi rammer et rigtigt API.
 export async function fetchCourses(): Promise<Course[]> {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(mockCourses), 1200)
+    setTimeout(() => resolve(mockCourses), 800)
   })
 }
