@@ -1,11 +1,16 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
-import CoursesPage from './pages/CoursesPage'
-import CourseDetailPage from './pages/CourseDetailPage'
-import LoginPage from './pages/LoginPage'
-import NotFoundPage from './pages/NotFoundPage'
 import './App.css'
+
+// React.lazy() + dynamic import = code splitting per route.
+// Hver side loades kun når brugeren navigerer til den — ikke ved initial load.
+// Termen: "route-based code splitting" / "lazy loading" / "dynamic import"
+const CoursesPage     = lazy(() => import('./pages/CoursesPage'))
+const CourseDetailPage = lazy(() => import('./pages/CourseDetailPage'))
+const LoginPage       = lazy(() => import('./pages/LoginPage'))
+const NotFoundPage    = lazy(() => import('./pages/NotFoundPage'))
 
 function Nav() {
   const { user, logout, isAuthenticated } = useAuth()
@@ -31,25 +36,25 @@ function App() {
   return (
     <BrowserRouter>
       <Nav />
-      {/* Ingen app-body wrapper her — hver side styrer sit eget layout.
-          CoursesPage har brug for full-width hero.
-          De øvrige sider har deres egne containere. */}
-      {/* <main> giver siden et WCAG landmark — skærmlæsere bruger det til at springe navigation over.
-          Termen: "main landmark" / "ARIA landmark" — WCAG 2.1 SC 1.3.1 */}
       <main>
-        <Routes>
-          <Route path="/" element={<CoursesPage />} />
-          <Route
-            path="/courses/:id"
-            element={
-              <ProtectedRoute>
-                <CourseDetailPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        {/* Suspense er påkrævet af React.lazy() — den viser fallback mens
+            en lazy-loadet komponent henter sin chunk over netværket.
+            Termen: "Suspense boundary" / "fallback" */}
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<CoursesPage />} />
+            <Route
+              path="/courses/:id"
+              element={
+                <ProtectedRoute>
+                  <CourseDetailPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </main>
     </BrowserRouter>
   )
