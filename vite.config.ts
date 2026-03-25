@@ -8,14 +8,18 @@ export default defineConfig({
       output: {
         // Manuel chunk-opdeling — adskiller store dependencies i egne filer
         // så browseren kan cache dem separat fra app-koden.
+        // Vite 8 kræver en funktion frem for et objekt.
         // Termen: "manual chunks" / "vendor splitting"
-        manualChunks: {
-          // React core i én chunk
-          'vendor-react': ['react', 'react-dom'],
-          // Router i sin egen chunk
-          'vendor-router': ['react-router-dom'],
-          // TanStack Query i sin egen chunk
-          'vendor-query': ['@tanstack/react-query'],
+        manualChunks(id) {
+          if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) {
+            return 'vendor-react'
+          }
+          if (id.includes('node_modules/react-router-dom') || id.includes('node_modules/react-router/')) {
+            return 'vendor-router'
+          }
+          if (id.includes('node_modules/@tanstack/react-query')) {
+            return 'vendor-query'
+          }
         },
       },
     },
