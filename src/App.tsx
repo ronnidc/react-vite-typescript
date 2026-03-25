@@ -34,19 +34,23 @@ function App() {
       {/* Ingen app-body wrapper her — hver side styrer sit eget layout.
           CoursesPage har brug for full-width hero.
           De øvrige sider har deres egne containere. */}
-      <Routes>
-        <Route path="/" element={<CoursesPage />} />
-        <Route
-          path="/courses/:id"
-          element={
-            <ProtectedRoute>
-              <CourseDetailPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      {/* <main> giver siden et WCAG landmark — skærmlæsere bruger det til at springe navigation over.
+          Termen: "main landmark" / "ARIA landmark" — WCAG 2.1 SC 1.3.1 */}
+      <main>
+        <Routes>
+          <Route path="/" element={<CoursesPage />} />
+          <Route
+            path="/courses/:id"
+            element={
+              <ProtectedRoute>
+                <CourseDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </main>
     </BrowserRouter>
   )
 }
