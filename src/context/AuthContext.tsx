@@ -1,38 +1,43 @@
-import { createContext, useContext, useState } from 'react'
-import type { ReactNode } from 'react'
-import type { User } from '../types'
-
-// AuthContext holder login-state på tværs af hele appen.
-// Uden context skulle vi sende user som prop igennem hvert niveau — "prop drilling".
-// Termen: "prop drilling" — at sende props ned igennem mange lag der ikke selv bruger dem.
+import { createContext, useContext, useState } from "react";
+import type { ReactNode } from "react";
+import type { User } from "../types";
 
 interface AuthContextValue {
-  user: User | null
-  login: (user: User) => void
-  logout: () => void
-  isAuthenticated: boolean
+  user: User | null;
+  login: (user: User) => void;
+  logout: () => void;
+  isAuthenticated: boolean;
 }
 
-// createContext opretter konteksten med en default-værdi.
-// null her betyder: "ingen provider er endnu monteret" — en fejl vi vil opdage hurtigt.
-// Termen: "context" / "createContext"
-const AuthContext = createContext<AuthContextValue | null>(null)
+const AuthContext = createContext<AuthContextValue | null>(null);
 
-// Provider-komponenten wrapper den del af appen der skal have adgang til auth-state.
-// Termen: "provider" / "consumer pattern"
+const STORAGE_KEY = "auth_user";
+
+function loadUser(): User | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as User) : null;
+  } catch {
+    return null;
+  }
+}
+
 interface AuthProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null)
+  // Initialiserer fra localStorage så reload ikke nulstiller auth-state.
+  const [user, setUser] = useState<User | null>(loadUser);
 
   function login(user: User) {
-    setUser(user)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+    setUser(user);
   }
 
   function logout() {
-    setUser(null)
+    localStorage.removeItem(STORAGE_KEY);
+    setUser(null);
   }
 
   const value: AuthContextValue = {
@@ -40,25 +45,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     login,
     logout,
     isAuthenticated: user !== null,
-  }
+  };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 // Custom hook der giver adgang til AuthContext.
 // Vi eksponerer ALDRIG AuthContext direkte — al adgang går via useAuth().
 // Det sikrer at vi fejler med en klar besked hvis nogen glemmer AuthProvider.
-// Termen: "custom context hook"
 export function useAuth(): AuthContextValue {
-  const context = useContext(AuthContext)
+  const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error('useAuth skal bruges inde i en AuthProvider')
+    throw new Error("useAuth skal bruges inde i en AuthProvider");
   }
 
-  return context
+  return context;
 }
