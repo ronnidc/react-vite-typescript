@@ -1,4 +1,4 @@
-# Læringsportal - React Vite Typescript 
+# Læringsportal - React Vite Typescript
 
 Et React-læringsportalprojekt der demonstrerer moderne React-praksis (2026) med Vite, TypeScript og tilhørende økosystem som Tanstack Query.
 
@@ -6,17 +6,17 @@ Live: [forbund.vercel.app](https://forbund.vercel.app)
 
 ## Stack
 
-| Teknologi | Version | Formål |
-|---|---|---|
-| React | 19 | UI og komponentarkitektur |
-| TypeScript | 5.9 | Typesikkerhed |
-| Vite | 8 | Bundler, dev-server og HMR |
-| React Router | v7 | Klientside routing via Browser History API |
-| TanStack Query | v5 | Server state, caching og datahentning |
-| CSS Modules | — | Scoped komponent-styling uden runtime overhead |
-| Barlow / Barlow Condensed | — | Selvhostede woff2-fonte med `@font-face` i `index.css` |
-| ESLint + Prettier | — | Linting og kodeformatering |
-| Vercel | — | Hosting og CI/CD |
+| Teknologi                 | Version | Formål                                                 |
+| ------------------------- | ------- | ------------------------------------------------------ |
+| React                     | 19      | UI og komponentarkitektur                              |
+| TypeScript                | 5.9     | Typesikkerhed                                          |
+| Vite                      | 8       | Bundler, dev-server og HMR                             |
+| React Router              | v7      | Klientside routing via Browser History API             |
+| TanStack Query            | v5      | Server state, caching og datahentning                  |
+| CSS Modules               | —       | Scoped komponent-styling uden runtime overhead         |
+| Barlow / Barlow Condensed | —       | Selvhostede woff2-fonte med `@font-face` i `index.css` |
+| ESLint + Prettier         | —       | Linting og kodeformatering                             |
+| Vercel                    | —       | Hosting og CI/CD                                       |
 
 ## Lighthouse
 
@@ -73,10 +73,10 @@ npm run dev    # starter dev-server på http://localhost:5173
 
 ## Demo-logins
 
-| Email | Rolle | Adgang |
-|---|---|---|
-| underviser@forbund.dk | instructor | Kun publicerede kurser |
-| admin@forbund.dk | admin | Alle kurser + kladder + redigering |
+| Email                 | Rolle      | Adgang                             |
+| --------------------- | ---------- | ---------------------------------- |
+| underviser@forbund.dk | instructor | Kun publicerede kurser             |
+| admin@forbund.dk      | admin      | Alle kurser + kladder + redigering |
 
 Adgangskode: hvad som helst
 
@@ -96,24 +96,29 @@ npm run format:check # Tjek formatering uden at skrive
 ## Todo
 
 ### Styling
+
 - [ ] **CSS-strategi** — projektet bruger pt. CSS Modules. Tailwind CSS er også en mulighed og måske mere hensigtsmæssigt i et større team og i sammenhæng med et eksisterende design system. Begge er legitime valg — CSS Modules er eksplicit og tæt på standard CSS, Tailwind er hurtigere at iterere i men kræver kendskab til utility-klasser.
 
 ### Tests forslag
+
 - [ ] **Opsæt testmiljø** — Vitest + React Testing Library + MSW (Mock Service Worker)
 - [ ] **Unit tests** — `useCourses`, `useRelatedResources`, `useAuth`
 - [ ] **Komponenttests** — `CourseCard`, `ProtectedRoute`, `LoginPage`
 - [ ] **Integrationstests** — login-flow, protected route redirect, post-login redirect
 
 ### Auth
+
 - [ ] **Persistent login** — auth-state nulstilles ved page refresh. Implementér token-persistering via `localStorage` eller `sessionStorage`
 - [ ] **JWT-integration** — erstat mock-auth med rigtig `POST /auth/login` der returnerer et JWT
 - [ ] **Token refresh** — håndtér udløbne tokens med silent refresh
 
 ### Data
+
 - [ ] **Erstat mock-data** — `courseService.ts` bruger hardkodet data med kunstig forsinkelse. I et rigtigt projekt skal det naturligvis erstattes med rigtige API-kald til backend.
 - [ ] **`useMutation`** — tilføj TanStack Query `useMutation` til oprettelse og redigering af kurser
 
 ### Features
+
 - [ ] **Redigeringsside** — admin-knappen på kursusdetalje viser `alert()`. Implementér `/courses/:id/edit` med formular og validering
 - [ ] **Søgefunktion** — filtrer kurser på titel og verdensmål-nummer
 - [ ] **Fremskridtssporing** — marker kurser som gennemført per bruger

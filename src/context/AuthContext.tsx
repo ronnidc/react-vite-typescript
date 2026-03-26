@@ -1,7 +1,16 @@
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from '../types';
-import { AuthContext } from './authContext';
+
+export interface AuthContextValue {
+  user: User | null;
+  login: (user: User) => void;
+  logout: () => void;
+  isAuthenticated: boolean;
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const AuthContext = createContext<AuthContextValue | null>(null);
 
 const STORAGE_KEY = 'auth_user';
 
@@ -31,7 +40,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser(null);
   }
 
-  const value = {
+  const value: AuthContextValue = {
     user,
     login,
     logout,
