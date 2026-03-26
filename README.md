@@ -1,6 +1,6 @@
 # Læringsportal - React Vite Typescript 
 
-Et React-læringsportalprojekt bygget som forberedelse til et interview. Demonstrerer moderne React-praksis (2026) med Vite, TypeScript og tilhørende økosystem.
+Et React-læringsportalprojekt der demonstrerer moderne React-praksis (2026) med Vite, TypeScript og tilhørende økosystem som Tanstack Query.
 
 Live: [forbund.vercel.app](https://forbund.vercel.app)
 
