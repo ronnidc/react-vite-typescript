@@ -1,6 +1,6 @@
-# Læringsportal — FNs Verdensmål
+# Læringsportal - React Vite Typescript 
 
-Et React-læringsportalprojekt bygget som forberedelse til interview. Demonstrerer moderne React-praksis med Vite, TypeScript og tilhørende økosystem.
+Et React-læringsportalprojekt bygget som forberedelse til et interview. Demonstrerer moderne React-praksis (2026) med Vite, TypeScript og tilhørende økosystem.
 
 Live: [forbund.vercel.app](https://forbund.vercel.app)
 
